@@ -19,8 +19,8 @@ class Value extends Model
         'timestamp_value',
         'time_value',
         'column_name',
+        'custom_attribute_id',
     ];
-
 
     public function person(): BelongsTo
     {

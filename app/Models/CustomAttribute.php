@@ -14,6 +14,4 @@ class CustomAttribute extends Model
         'type',
         'column_name',
     ];
-
-
 }
