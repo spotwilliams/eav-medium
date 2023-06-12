@@ -26,7 +26,12 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'people' => \App\Models\Person::query()
+            ->withCustomAttributes()
+            ->paginate(10)
+            ->withQueryString(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
