@@ -15,26 +15,34 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+         \App\Models\User::factory()->create([
+             'name' => 'Test User',
+             'email' => 'test@example.com',
+         ]);
         CustomAttribute::create([
-            'name' => 'Full name',
+            'name' => 'full_name',
+            'label' => 'Full name',
             'type' => 'string',
             'column_name' => 'string_value',
         ]);
 
         CustomAttribute::create([
-            'name' => 'Birthdate',
+            'name' => 'birthdate',
+            'label' => 'Birthdate',
             'type' => 'date',
             'column_name' => 'date_value',
         ]);
 
         CustomAttribute::create([
-            'name' => 'Age',
+            'name' => 'age',
+            'label' => 'Age',
             'type' => 'integer',
             'column_name' => 'integer_value',
         ]);
 
         CustomAttribute::create([
-            'name' => 'Savings',
+            'name' => 'savings',
+            'label' => 'Savings',
             'type' => 'money',
             'column_name' => 'money_value',
         ]);
@@ -46,7 +54,7 @@ class DatabaseSeeder extends Seeder
         /** @var Person $person */
         foreach (Person::query()->cursor() as $person) {
             $values = $attributes->map(function (CustomAttribute $attribute) {
-                $input = match ($attribute->name) {
+                $input = match ($attribute->label) {
                     'Full name' => fake()->name(),
                     'Birthdate' => fake()->date(),
                     'Age' => rand(1, 80),

@@ -10,8 +10,10 @@ return new class extends Migration
     {
         Schema::create('custom_attributes', function (Blueprint $table) {
             $table->id();
-            // The name of the attribute
+            // The name of the attribute, will be used to access data
             $table->string('name');
+            // The name of the attribute, will be used in the UI
+            $table->string('label');
             // The type, can be Laravel's types or custom ones
             $table->string('type');
             // The name of the column in the values table that is populated with values related to current attribute

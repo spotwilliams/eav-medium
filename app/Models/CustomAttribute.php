@@ -10,6 +10,7 @@ class CustomAttribute extends Model
     use HasFactory;
 
     protected $fillable = [
+        'label',
         'name',
         'type',
         'column_name',
