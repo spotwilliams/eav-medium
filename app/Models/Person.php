@@ -24,16 +24,19 @@ class Person extends Model
         /** @var Collection<CustomAttribute> $attributes */
         $attributes = CustomAttribute::all();
 
-        $selects = [];
-        // Build the select list: the header of the query result will have the list of fields (ids) and then values will be located at the same level.
-        // as result we will have in one row all the values of the person.
+        // Build the select list: the header of the query result will have the list of fields (ids) and the values will be located at the same level.
+        // as result, we will have in one row all the values of the person.
         foreach ($attributes as $attribute) {
-            // Select the value for the associate field and the current record (current record in the context of the query)
-            $selects[] = "(SELECT {$attribute->column_name} FROM values where custom_attribute_id = {$attribute->id} and values.person_id = people.id) as {$attribute->name}";
+            $query->addSelect([
+                // The key will append a new attribute on the resultant model with the name of the attribute
+                $attribute->name => Value::query()
+                    // Only select the column that the attribute indicates
+                    ->select($attribute->column_name)
+                    // Filter the attributes by person
+                    ->whereColumn('values.person_id', '=', 'people.id')
+                    // Only choose the attribute indicated here
+                    ->where('values.custom_attribute_id', '=', $attribute->id)
+            ]);
         }
-
-        $selects = implode(',', $selects);
-
-        $query->selectRaw("{$selects}");
     }
 }
